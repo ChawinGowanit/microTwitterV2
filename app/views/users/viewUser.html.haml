@@ -14,7 +14,7 @@
             = button_to 'Like', '/like', params: {pid: post.id}, class: 'btn btn-dark'
           - else
             = button_to 'Unlike', '/unlike', params: {pid: post.id}, class: 'btn btn-outline-dark'
-          %button.btn.btn-primary.showlike{"data-targer" => "#likemodal" ,"data-toggle" => "modal" type: "button", "likers"=> "#{post.get_liker}"} total like : #{post.likes.length}
+          %button.btn.btn-primary.wholikebutton{"data-target" => "#likeModal","data-toggle"=>"modal", :type => "button","likers"=>"#{post.get_likers}"} total like : #{post.likes.length}    
     .col-1
       = simple_form_for(Follow.new, :url => manageFollow_url, :method => :post) do |f|
         = f.error_notification
