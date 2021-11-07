@@ -1,0 +1,29 @@
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "modalTitle", :role=>"dialog", :tabindex=> "-1",id: "likeModal"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %h5#modalTitle.modal-title See who like this Post
+      .modal-body
+        #ul.list-group.list-group-flush#likeduser
+      .modal-footer
+        %button.btn.btn-secondary.closemodalbutton{"data-dismiss" => "modal", :type => "button"} Close
+  }
+
+:javascript
+  $(document).ready(function(){
+
+    $(".wholikebutton").click(function(){
+      $('#likeModal').modal("show")
+      let likers = $(this).attr("likers").split(" ");
+        $("#likeduser").html(likers.map(name =>
+        '<li class="list-group-item" data-bs-dismiss="modal"><h6><a
+        style="text-decoration: none;"
+        href="/profile/'+name+'">'+name+'</a></h6></li>'
+      ))
+    });
+
+    $(".closemodalbutton").click(function(){
+      $('#likeModal').modal("hide");
+    });
+
+  });

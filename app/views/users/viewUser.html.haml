@@ -1,0 +1,30 @@
+%p#notice= notice
+%h1  #{@name}'s profile
+
+.container
+  = render 'likeModal'
+  .row
+    .col-11
+      - @user.posts.each do |post|
+        .d-flex.p-2.border.border-dark.rounded.mt-3 
+          Message : #{post.message} <br> 
+          Created-at : #{post.created_at} <br>
+          .col
+          - if Like.find_by(post_id: post.id,likeUser: session[:user_id]) == nil
+            = button_to 'Like', '/like', params: {pid: post.id}, class: 'btn btn-dark'
+          - else
+            = button_to 'Unlike', '/unlike', params: {pid: post.id}, class: 'btn btn-outline-dark'
+          %button.btn.btn-primary.showlike{"data-targer" => "#likemodal" ,"data-toggle" => "modal" type: "button", "likers"=> "#{post.get_liker}"} total like : #{post.likes.length}
+    .col-1
+      = simple_form_for(Follow.new, :url => manageFollow_url, :method => :post) do |f|
+        = f.error_notification
+        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+        .form-inputs
+          = f.hidden_field :followee_id, value: @user.id
+
+        %p
+        .form-actions
+          - if Follow.find_by(follower_id: session[:user_id], followee: @user.id) == nil
+            = f.submit 'Follow', class: 'btn btn-dark'
+          - else
+            = f.submit 'Unfollow', class: 'btn btn-outline-dark'

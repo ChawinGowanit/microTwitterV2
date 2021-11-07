@@ -1,0 +1,24 @@
+%p#notice= notice
+%p#alert= alert
+%h1 See your new feed
+= render 'layouts/likeModal'
+
+.container
+  .row
+    .col-11
+      -@feedpost.each do |post|
+        .col
+          .d-flex.p-2.border.border-dark.rounded.mt-3
+            Username : #{User.find(post.user_id).name} 
+            <br>
+            Message : #{post.message} 
+            <br>
+
+            .col
+            - if Like.find_by(post_id: post.id,likeUser: session[:user_id]) == nil
+              = button_to 'Like', '/like', params: {pid: post.id}, class: 'btn btn-dark'
+            - else
+              = button_to 'Unlike', '/unlike', params: {pid: post.id}, class: 'btn btn-outline-dark'
+            %button.btn.btn-primary.wholikebutton{"data-target" => "#likeModal","data-toggle"=>"modal", :type => "button","likers"=>"#{post.get_likers}"} total like : #{post.likes.length}
+    .col-1
+      = link_to 'Post', :new_post, class: 'btn btn-outline-dark'

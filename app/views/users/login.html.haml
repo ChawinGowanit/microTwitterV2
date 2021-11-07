@@ -1,0 +1,14 @@
+%h1 LogIn to microTwitter
+%p#alert= alert
+= simple_form_for(@user, :url => check_path, :method => :post) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :email
+    = f.input :password
+
+  %p
+  .form-actions
+    = f.submit 'Login' , class: 'btn btn-outline-dark mt-2'
+    = f.submit 'Register', class: 'btn btn-outline-dark mt-2'
